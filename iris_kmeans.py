@@ -57,6 +57,7 @@ def categorise_dataset(contents):
     # apply kmeans
     centroid = []
     fitness = []
+    obj = []
     for x in range(0,25):
     	sol_centroid_indices = kmeans.fit_predict(np.array(sol[x]))
     	sol_centroid = kmeans.cluster_centers_
@@ -64,7 +65,9 @@ def categorise_dataset(contents):
     	centroid.append(sol_centroid)
     	print "Solution "
     	print x
-    	compute_dist(contents,  sol_centroid)
+    	obj.append(compute_dist(contents,  sol_centroid))
+    print "Objective Functions"
+    print obj
     #return centroid
 
 def compute_dist(contents, centroids):
@@ -81,7 +84,7 @@ def compute_dist(contents, centroids):
 				pos = x
 		membership.append(pos)
 	print membership
-	obj_func(contents, centroids, membership)
+	return obj_func(contents, centroids, membership)
 		#print pos
 
 
@@ -92,7 +95,13 @@ def obj_func(contents, centroids, membership):
 		for x in range(0,4):
 			dist =  dist+ ((float(each_tuple[x])-centroids[membership[tmp]][x])*(float(each_tuple[x])-centroids[membership[tmp]][x]))
 		tmp= tmp + 1
-	print dist
+	return dist
+
+def cluster():
+
+
+
+def optimisation():
 
 if __name__ == '__main__':
     contents = read_csv_contents('Iris.csv')
