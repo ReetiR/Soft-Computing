@@ -5,6 +5,7 @@ import numpy as np
 import random
 import math
 
+
 def read_csv_contents(filename):
     """Reads contents of a csv file and returns the row as a tuple
         Parameters
@@ -67,10 +68,10 @@ def categorise_dataset(contents):
     #return centroid
 
 def compute_dist(contents, centroids):
+	membership = []
 	for each_tuple in contents:
 		min_dist = 10000
 		dst = 0
-		membership = []
 		for x in range(0,3):
 			for y in range(0,4):
 				dst= dst+((float(each_tuple[y])-centroids[x][y])*(float(each_tuple[y])-centroids[x][y]))
@@ -79,7 +80,7 @@ def compute_dist(contents, centroids):
 				min_dist= dst
 				pos = x
 		membership.append(pos)
-		#print membership
+	print membership
 	obj_func(contents, centroids, membership)
 		#print pos
 
@@ -90,9 +91,8 @@ def obj_func(contents, centroids, membership):
 	for each_tuple in contents:
 		for x in range(0,4):
 			dist =  dist+ ((float(each_tuple[x])-centroids[membership[tmp]][x])*(float(each_tuple[x])-centroids[membership[tmp]][x]))
-	tmp= tmp+1
+		tmp= tmp + 1
 	print dist
-
 
 if __name__ == '__main__':
     contents = read_csv_contents('Iris.csv')
