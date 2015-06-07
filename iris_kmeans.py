@@ -68,6 +68,7 @@ def categorise_dataset(contents):
     	obj.append(compute_dist(contents,  sol_centroid))
     print "Objective Functions"
     print obj
+    data_dict(sol_centroid.flatten(), obj)
     #return centroid
 
 def compute_dist(contents, centroids):
@@ -83,7 +84,7 @@ def compute_dist(contents, centroids):
 				min_dist= dst
 				pos = x
 		membership.append(pos)
-	print membership
+	#print membership
 	return obj_func(contents, centroids, membership)
 		#print pos
 
@@ -97,11 +98,15 @@ def obj_func(contents, centroids, membership):
 		tmp= tmp + 1
 	return dist
 
-def cluster():
+def data_dict(centroids, obj):
+	val_dict = {}
+	for x in range(0,25):
+		val_dict[centroids[x]] = obj[x]
+	print val_dict
 
 
 
-def optimisation():
+
 
 if __name__ == '__main__':
     contents = read_csv_contents('Iris.csv')
