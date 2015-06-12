@@ -44,31 +44,16 @@ def categorise_dataset(contents):
     	x = random.randint(0,49)
     	temp.append(iris_virginica[x])
     	sol.append(temp)
-
-
-    kwargs = {
-        'n_init': 5,
-        # depends on number of cores in your machine.
-        'n_jobs': 3,
-        'n_clusters': 3,
-    }
-    kmeans = KMeans()
-    kmeans.set_params(**kwargs)
-    # apply kmeans
-    centroid = []
-    fitness = []
     obj = []
     for x in range(0,25):
-    	sol_centroid_indices = kmeans.fit_predict(np.array(sol[x]))
-    	sol_centroid = kmeans.cluster_centers_
-    	print sol_centroid
-    	centroid.append(sol_centroid)
     	print "Solution "
     	print x
-    	obj.append(compute_dist(contents,  sol_centroid))
+    	print sol[x]
+    	obj.append(compute_dist(contents,  sol[x]))
     print "Objective Functions"
     print obj
-    data_dict(sol_centroid.flatten(), obj)
+    centroid = cluster(sol, obj)
+    opti_algo(centroid)
     #return centroid
 
 def compute_dist(contents, centroids):
@@ -78,7 +63,7 @@ def compute_dist(contents, centroids):
 		dst = 0
 		for x in range(0,3):
 			for y in range(0,4):
-				dst= dst+((float(each_tuple[y])-centroids[x][y])*(float(each_tuple[y])-centroids[x][y]))
+				dst= dst+((float(each_tuple[y])-float(centroids[x][y]))*(float(each_tuple[y])-float(centroids[x][y])))
 			dst = math.sqrt(dst)
 			if(dst<min_dist):
 				min_dist= dst
@@ -94,18 +79,111 @@ def obj_func(contents, centroids, membership):
 	tmp = 0
 	for each_tuple in contents:
 		for x in range(0,4):
-			dist =  dist+ ((float(each_tuple[x])-centroids[membership[tmp]][x])*(float(each_tuple[x])-centroids[membership[tmp]][x]))
+			dist =  dist+ ((float(each_tuple[x])-float(centroids[membership[tmp]][x]))*(float(each_tuple[x])-float(centroids[membership[tmp]][x])))
 		tmp= tmp + 1
 	return dist
 
-def data_dict(centroids, obj):
-	val_dict = {}
+def cluster(centroids, obj):
+	new_set = []
+	prev_min = 0
+	pos= 0
 	for x in range(0,25):
-		val_dict[centroids[x]] = obj[x]
-	print val_dict
+		min_val = 1000
+		for y in range(0,25):
+			if (obj[y]< min_val) and (obj[y]>prev_min):
+				min_val = obj[y]
+				pos = y
+		prev_min = obj[pos]
+		print pos
+		new_set.append(centroids[pos])
+	return new_set
 
+def opti_algo(centroids):
+	size1= random.randint(2, 7)
+	size2= random.randint(2, 7)
+	size3= random.randint(2, 7)
+	size4= random.randint(2, 7)
+	size5= 25 - (size1+size2+size3+size4)
+	num = random.random()
+	p_replace = 0.2
+	p_one = 0.8
+	p_one_center = 0.4
+	p_two_center = 0.5
+	if(num<p_replace):
+		n=  random.randint(0, 4)
+		if (n==0):
+			centroids[0][0][0]= random.uniform(4.3,5.8)
+			centroids[0][0][1]= random.uniform(2.3,4.4)
+			centroids[0][0][2]= random.uniform(1,1.9)
+			centroids[0][0][3]= random.uniform(0.1,0.6)
+			centroids[0][1][0]= random.uniform(4.9,7)
+			centroids[0][1][1]= random.uniform(2,3.4)
+			centroids[0][1][2]= random.uniform(3,5.1)
+			centroids[0][1][3]= random.uniform(1,1.8)
+			centroids[0][2][0]= random.uniform(4.9,7.9)
+			centroids[0][2][1]= random.uniform(2.2,3.8)
+			centroids[0][2][2]= random.uniform(4.5,6.9)
+			centroids[0][2][3]= random.uniform(1.4,2.5)
+		elif (n==1):
+			centroids[size1][0][0]= random.uniform(4.3,5.8)
+			centroids[size1][0][1]= random.uniform(2.3,4.4)
+			centroids[size1][0][2]= random.uniform(1,1.9)
+			centroids[size1][0][3]= random.uniform(0.1,0.6)
+			centroids[size1][1][0]= random.uniform(4.9,7)
+			centroids[size1][1][1]= random.uniform(2,3.4)
+			centroids[size1][1][2]= random.uniform(3,5.1)
+			centroids[size1][1][3]= random.uniform(1,1.8)
+			centroids[size1][2][0]= random.uniform(4.9,7.9)
+			centroids[size1][2][1]= random.uniform(2.2,3.8)
+			centroids[size1][2][2]= random.uniform(4.5,6.9)
+			centroids[size1][2][3]= random.uniform(1.4,2.5)
+		elif (n==2):
+			centroids[size1+size2][0][0]= random.uniform(4.3,5.8)
+			centroids[size1+size2][0][1]= random.uniform(2.3,4.4)
+			centroids[size1+size2][0][2]= random.uniform(1,1.9)
+			centroids[size1+size2][0][3]= random.uniform(0.1,0.6)
+			centroids[size1+size2][1][0]= random.uniform(4.9,7)
+			centroids[size1+size2][1][1]= random.uniform(2,3.4)
+			centroids[size1+size2][1][2]= random.uniform(3,5.1)
+			centroids[size1+size2][1][3]= random.uniform(1,1.8)
+			centroids[size1+size2][2][0]= random.uniform(4.9,7.9)
+			centroids[size1+size2][2][1]= random.uniform(2.2,3.8)
+			centroids[size1+size2][2][2]= random.uniform(4.5,6.9)
+			centroids[size1+size2][2][3]= random.uniform(1.4,2.5)
+		elif (n==3):
+			centroids[size1+size2+size3][0][0]= random.uniform(4.3,5.8)
+			centroids[size1+size2+size3][0][1]= random.uniform(2.3,4.4)
+			centroids[size1+size2+size3][0][2]= random.uniform(1,1.9)
+			centroids[size1+size2+size3][0][3]= random.uniform(0.1,0.6)
+			centroids[size1+size2+size3][1][0]= random.uniform(4.9,7)
+			centroids[size1+size2+size3][1][1]= random.uniform(2,3.4)
+			centroids[size1+size2+size3][1][2]= random.uniform(3,5.1)
+			centroids[size1+size2+size3][1][3]= random.uniform(1,1.8)
+			centroids[size1+size2+size3][2][0]= random.uniform(4.9,7.9)
+			centroids[size1+size2+size3][2][1]= random.uniform(2.2,3.8)
+			centroids[size1+size2+size3][2][2]= random.uniform(4.5,6.9)
+			centroids[size1+size2+size3][2][3]= random.uniform(1.4,2.5)
+		else:
+			centroids[size1+size2+size3+size4][0][0]= random.uniform(4.3,5.8)
+			centroids[size1+size2+size3+size4][0][1]= random.uniform(2.3,4.4)
+			centroids[size1+size2+size3+size4][0][2]= random.uniform(1,1.9)
+			centroids[size1+size2+size3+size4][0][3]= random.uniform(0.1,0.6)
+			centroids[size1+size2+size3+size4][1][0]= random.uniform(4.9,7)
+			centroids[size1+size2+size3+size4][1][1]= random.uniform(2,3.4)
+			centroids[size1+size2+size3+size4][1][2]= random.uniform(3,5.1)
+			centroids[size1+size2+size3+size4][1][3]= random.uniform(1,1.8)
+			centroids[size1+size2+size3+size4][2][0]= random.uniform(4.9,7.9)
+			centroids[size1+size2+size3+size4][2][1]= random.uniform(2.2,3.8)
+			centroids[size1+size2+size3+size4][2][2]= random.uniform(4.5,6.9)
+			centroids[size1+size2+size3+size4][2][3]= random.uniform(1.4,2.5)
 
-
+	for x in range(0,25):
+		num = random.random()
+		if(num<p_one):
+			if(size1>size2) and (size1>size3) and (size1>size4) and (size1>size4):
+				num =  random.random()
+				if(num<p_one_center):
+					
 
 
 if __name__ == '__main__':
