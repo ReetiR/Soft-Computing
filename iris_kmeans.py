@@ -53,7 +53,7 @@ def categorise_dataset(contents):
     print "Objective Functions"
     print obj
     centroid, obj = cluster(sol, obj)
-    opti_algo(centroid, obj)
+    opti_algo(centroid, obj, contents)
     #return centroid
 
 def compute_dist(contents, centroids):
@@ -100,9 +100,7 @@ def cluster(centroids, obj):
 	print obj
 	return new_set, obj
 
-def opti_algo(centroids, obj):
-	temp= []
-	centroid_rep1= []
+def opti_algo(centroids, obj, contents):
 	rep2= []
 	size1= random.randint(2, 7)
 	size2= random.randint(2, 7)
@@ -115,23 +113,30 @@ def opti_algo(centroids, obj):
 	p_one_center = 0.4
 	p_two_center = 0.5
 	if(num<p_replace):
-		n=  random.randint(0, 4)
-		temp.append(random.uniform(4.3,5.8))
-		temp.append(random.uniform(2.3,4.4))
-		temp.append(random.uniform(1,1.9))
-		temp.append(random.uniform(0.1,0.6))
-		centroid_rep1.append(temp)
-		temp =[]
-		temp.append(random.uniform(4.9,7))
-		temp.append(random.uniform(2,3.4))
-		temp.append(random.uniform(3,5.1))
-		temp.append(random.uniform(1,1.8))
-		centroid_rep1.append(temp)
-		temp = []
-		temp.append(random.uniform(4.9,7.9))
-		temp.append(random.uniform(2.2,3.8))
-		temp.append(random.uniform(4.5,6.9))
-		temp.append(random.uniform(1.4,2.5))
+		rand=  random.randint(0, 4)
+		if (rand==0):
+			center = 0
+		elif (rand==1):
+			center = size1
+		elif (rand==2):
+			center = size1+size2
+		elif (rand==3):
+			center = size1+size2+size3
+		else:
+			center = size1+size2+size3+size4
+		centroids[center][0][0]= random.uniform(4.3,5.8)
+		centroids[center][0][1]= random.uniform(2.3,4.4)
+		centroids[center][0][2]= random.uniform(1,1.9)
+		centroids[center][0][3]= random.uniform(0.1,0.6)
+		centroids[center][1][0]= random.uniform(4.9,7)
+		centroids[center][1][1]= random.uniform(2,3.4)
+		centroids[center][1][2]= random.uniform(3,5.1)
+		centroids[center][1][3]= random.uniform(1,1.8)
+		centroids[center][2][0]= random.uniform(4.9,7.9)
+		centroids[center][2][1]= random.uniform(2.2,3.8)
+		centroids[center][2][2]= random.uniform(4.5,6.9)
+		centroids[center][2][3]= random.uniform(1.4,2.5)
+		
 	for x in range(0,25):
 		num = random.random()
 		if(num<p_one):
