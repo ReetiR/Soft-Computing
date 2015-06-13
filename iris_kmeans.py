@@ -167,6 +167,7 @@ def opti_algo(centroids, obj, contents):
 				rand2= random.randint(size1+size2+size3+size4, 24)
 				end= 24
 			if(num<p_one_center):
+				changed = center
 				for x in range(0,3):
 					temp = []
 					for y in range(0,4):
@@ -174,6 +175,7 @@ def opti_algo(centroids, obj, contents):
 					rep2.append(temp)
 			else:
 				rand = random.randint(center,end)
+				changed = rand
 				for x in range(0,3):
 					temp = []
 					for y in range(0,4):
@@ -216,6 +218,7 @@ def opti_algo(centroids, obj, contents):
 				end2= 24
 			num= random.random()
 			if(num<p_two_center):
+				changed = center1
 				for x in range(0,3):
 					temp = []
 					for y in range(0,4):
@@ -224,13 +227,17 @@ def opti_algo(centroids, obj, contents):
 			else:
 				rand1 = random.randint(center1,end1)
 				rand2 = random.randint(center2,end2)
+				changed = rand1
 				for x in range(0,3):
 					temp = []
 					for y in range(0,4):
 						temp.append((num*float(centroids[rand1][x][y])) + ((1-num)*float(centroids[rand2][x][y])))
 					rep2.append(temp)
-	print "rep"
-	print rep2
+		new_obj = compute_dist(contents, rep2)
+		print "old obj"
+		print obj[changed]
+		print "new obj"
+		print new_obj
 
 if __name__ == '__main__':
     contents = read_csv_contents('Iris.csv')
