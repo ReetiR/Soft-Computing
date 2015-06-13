@@ -163,16 +163,16 @@ def opti_algo(centroids):
 				end= 24
 			if(num<p_one_center):
 				for x in range(0,3):
+					temp = []
 					for y in range(0,4):
-						temp[y] = float(centroids[center][x][y]) + (random.random()*(float(centroids[rand1][x][y])-float(centroids[rand2][x][y])))
+						temp.append(float(centroids[center][x][y]) + (random.random()*(float(centroids[rand1][x][y])-float(centroids[rand2][x][y]))))
 					rep2.append(temp)
 			else:
 				rand = random.randint(center,end)
 				for x in range(0,3):
+					temp = []
 					for y in range(0,4):
-						print rand
-						print centroids[rand][x][y]
-						temp[y] = float(centroids[rand][x][y]) + (random.random()*(float(centroids[rand1][x][y])-float(centroids[rand2][x][y])))
+						temp.append(float(centroids[rand][x][y]) + (random.random()*(float(centroids[rand1][x][y])-float(centroids[rand2][x][y]))))
 					rep2.append(temp)				
 		else:
 			randj1= random.randint(0,4)
@@ -212,17 +212,17 @@ def opti_algo(centroids):
 			num= random.random()
 			if(num<p_two_center):
 				for x in range(0,3):
+					temp = []
 					for y in range(0,4):
-						temp[y] = (num*float(centroids[center1][x][y]))+ ((1-num)*float(centroids[center2][x][y]))
+						temp.append((num*float(centroids[center1][x][y]))+ ((1-num)*float(centroids[center2][x][y])))
 					rep2.append(temp)
 			else:
 				rand1 = random.randint(center1,end1)
 				rand2 = random.randint(center2,end2)
 				for x in range(0,3):
+					temp = []
 					for y in range(0,4):
-						print rand1
-						print rand2
-						temp[y] = (num*float(centroids[rand1][x][y])) + ((1-num)*float(centroids[rand2][x][y]))
+						temp.append((num*float(centroids[rand1][x][y])) + ((1-num)*float(centroids[rand2][x][y])))
 					rep2.append(temp)
 
 if __name__ == '__main__':
