@@ -229,8 +229,6 @@ def opti_algo(centroids, obj, contents):
 					for y in range(0,4):
 						temp.append((num*float(centroids[rand1][x][y])) + ((1-num)*float(centroids[rand2][x][y])))
 					rep2.append(temp)
-	print "Centroid rep"
-	print centroid_rep1
 	print "rep"
 	print rep2
 
