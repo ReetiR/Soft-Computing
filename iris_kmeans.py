@@ -54,7 +54,7 @@ def categorise_dataset(contents):
     	print sol[x]
     	obj.append(compute_dist(contents,  sol[x]))
     print "Objective Functions"
-    print obj
+    #print obj
     centroid, obj = cluster(sol, obj)
     opti_algo(centroid, obj, contents)
     #return centroid
@@ -102,6 +102,7 @@ def cluster(centroids, obj):
 	return new_set, obj
 
 def opti_algo(centroids, obj, contents):
+	min_obj= obj[0]
 	size1= random.randint(2, 7)
 	size2= random.randint(2, 7)
 	size3= random.randint(2, 7)
@@ -113,6 +114,7 @@ def opti_algo(centroids, obj, contents):
 	p_one_center = 0.4
 	p_two_center = 0.5
 	if(num<p_replace):
+		#Replacing randomly selected cluster
 		rand=  random.randint(0, 4)
 		if (rand==0):
 			center = 0
@@ -141,6 +143,7 @@ def opti_algo(centroids, obj, contents):
 		rep2= []
 		num = random.random()
 		if(num<p_one):
+			#Probability of generating new idea based on one cluster
 			num =  random.random()
 			if (size1>size2) and (size1>size3) and (size1>size4) and (size1>size4) and (size1>size5):
 				center = 0
@@ -168,21 +171,23 @@ def opti_algo(centroids, obj, contents):
 				rand2= random.randint(size1+size2+size3+size4, 24)
 				end= 24
 			if(num<p_one_center):
+				#Probability of using cluster center
 				changed = center
-				for x in range(0,3):
+				for a in range(0,3):
 					temp = []
 					for y in range(0,4):
-						temp.append(float(centroids[center][x][y]) + (random.random()*(float(centroids[rand1][x][y])-float(centroids[rand2][x][y]))))
+						temp.append(float(centroids[center][a][y]) + (random.random()*(float(centroids[rand1][a][y])-float(centroids[rand2][a][y]))))
 					rep2.append(temp)
 			else:
 				rand = random.randint(center,end)
 				changed = rand
-				for x in range(0,3):
+				for a in range(0,3):
 					temp = []
 					for y in range(0,4):
-						temp.append(float(centroids[rand][x][y]) + (random.random()*(float(centroids[rand1][x][y])-float(centroids[rand2][x][y]))))
+						temp.append(float(centroids[rand][a][y]) + (random.random()*(float(centroids[rand1][a][y])-float(centroids[rand2][a][y]))))
 					rep2.append(temp)				
 		else:
+			#Generating new idea based on two cluster
 			randj1= random.randint(0,4)
 			randj2= random.randint(0,4)
 			while(randj1==randj2):
@@ -219,33 +224,42 @@ def opti_algo(centroids, obj, contents):
 				end2= 24
 			num= random.random()
 			if(num<p_two_center):
+				#Probability of using cluster center
 				changed = center1
-				for x in range(0,3):
+				for a in range(0,3):
 					temp = []
 					for y in range(0,4):
-						temp.append((num*float(centroids[center1][x][y]))+ ((1-num)*float(centroids[center2][x][y])))
+						temp.append((num*float(centroids[center1][a][y]))+ ((1-num)*float(centroids[center2][a][y])))
 					rep2.append(temp)
 			else:
 				rand1 = random.randint(center1,end1)
 				rand2 = random.randint(center2,end2)
 				changed = rand1
-				for x in range(0,3):
+				for a in range(0,3):
 					temp = []
 					for y in range(0,4):
-						temp.append((num*float(centroids[rand1][x][y])) + ((1-num)*float(centroids[rand2][x][y])))
+						temp.append((num*float(centroids[rand1][a][y])) + ((1-num)*float(centroids[rand2][a][y])))
 					rep2.append(temp)
 		new_obj = compute_dist(contents, rep2)
-		print "old obj"
-		print obj[changed]
-		print "new obj"
-		print new_obj
+		#print "old obj"
+		#print obj[changed]
+		#print "new obj"
+		#print new_obj
 		if(obj[changed]>new_obj):
-			print "changing"
+			#print "changing"
 			for x in range(0,3):
 				for y in range(0,4):
 					centroids[changed][x][y]= rep2[x][y]
 			obj[changed]= new_obj
-	cluster(centroids, obj)
+	new_centroid, obj = cluster(centroids, obj)
+	#print new_centroid
+	while True:
+		print "Difference"
+		print min_obj-obj[0]
+		if((min_obj-obj[0])==0.0):
+			print "over"
+			exit()
+		opti_algo(new_centroid, obj, contents)
 
 if __name__ == '__main__':
     contents = read_csv_contents('Iris.csv')
