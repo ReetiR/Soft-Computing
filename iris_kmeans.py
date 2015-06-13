@@ -52,8 +52,8 @@ def categorise_dataset(contents):
     	obj.append(compute_dist(contents,  sol[x]))
     print "Objective Functions"
     print obj
-    centroid = cluster(sol, obj)
-    opti_algo(centroid)
+    centroid, obj = cluster(sol, obj)
+    opti_algo(centroid, obj)
     #return centroid
 
 def compute_dist(contents, centroids):
@@ -98,9 +98,9 @@ def cluster(centroids, obj):
 		new_set.append(centroids[pos])
 	obj.sort()
 	print obj
-	return new_set
+	return new_set, obj
 
-def opti_algo(centroids):
+def opti_algo(centroids, obj):
 	temp= []
 	centroid_rep1= []
 	rep2= []
@@ -224,6 +224,10 @@ def opti_algo(centroids):
 					for y in range(0,4):
 						temp.append((num*float(centroids[rand1][x][y])) + ((1-num)*float(centroids[rand2][x][y])))
 					rep2.append(temp)
+	print "Centroid rep"
+	print centroid_rep1
+	print "rep"
+	print rep2
 
 if __name__ == '__main__':
     contents = read_csv_contents('Iris.csv')
