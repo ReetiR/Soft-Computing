@@ -28,11 +28,14 @@ def categorise_dataset(contents):
     iris_virginica = []
     for each_tuple in contents:
         if each_tuple[4] == 'Iris-virginica':
-            iris_virginica.append(each_tuple[:4])
+            iris_virginica.append(list(each_tuple[:4]))
+            #iris_virginica = list(iris_virginica)
         elif each_tuple[4] == 'Iris-versicolor':
-            iris_versicolor.append(each_tuple[:4])
+            iris_versicolor.append(list(each_tuple[:4]))
+            #iris_versicolor = list(iris_versicolor)
         elif each_tuple[4] == 'Iris-setosa':
-            iris_setosa.append(each_tuple[:4])
+            iris_setosa.append(list(each_tuple[:4]))
+            #iris_setosa = list(iris_setosa)
     sol = []
 
     for i in range(0,25):
@@ -73,7 +76,6 @@ def compute_dist(contents, centroids):
 	return obj_func(contents, centroids, membership)
 		#print pos
 
-
 def obj_func(contents, centroids, membership):
 	dist = 0
 	tmp = 0
@@ -94,14 +96,12 @@ def cluster(centroids, obj):
 				min_val = obj[y]
 				pos = y
 		prev_min = obj[pos]
-		print pos
 		new_set.append(centroids[pos])
 	obj.sort()
 	print obj
 	return new_set, obj
 
 def opti_algo(centroids, obj, contents):
-	rep2= []
 	size1= random.randint(2, 7)
 	size2= random.randint(2, 7)
 	size3= random.randint(2, 7)
@@ -138,6 +138,7 @@ def opti_algo(centroids, obj, contents):
 		centroids[center][2][3]= random.uniform(1.4,2.5)
 		
 	for x in range(0,25):
+		rep2= []
 		num = random.random()
 		if(num<p_one):
 			num =  random.random()
@@ -238,6 +239,13 @@ def opti_algo(centroids, obj, contents):
 		print obj[changed]
 		print "new obj"
 		print new_obj
+		if(obj[changed]>new_obj):
+			print "changing"
+			for x in range(0,3):
+				for y in range(0,4):
+					centroids[changed][x][y]= rep2[x][y]
+			obj[changed]= new_obj
+	cluster(centroids, obj)
 
 if __name__ == '__main__':
     contents = read_csv_contents('Iris.csv')
