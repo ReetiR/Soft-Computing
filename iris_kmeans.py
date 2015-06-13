@@ -133,50 +133,49 @@ def opti_algo(centroids):
 				center = 0
 				rand1 = random.randint(0,size1-1)
 				rand2= random.randint(0,size1-1)
+				end = size1-1
 			elif (size2>size3) and (size2>size4) and (size2>size5):
 				center = size1
 				rand1 = random.randint(size1,size1+size2-1)
 				rand2= random.randint(size1,size1+size2-1)
+				end = size1+size2-1
 			elif (size3> size4) and (size3>size5):
 				center = size1+size2
 				rand1 = random.randint(size1+size2, size1+size2+size3-1)
 				rand2= random.randint(size1+size2, size1+size2+size3-1)
+				end = size1+size2+size3-1
 			elif (size4>size5):
 				center = size1+size2+size3
 				rand1 = random.randint(size1+size2+size3, size1+size2+size3+size4-1)
 				rand2= random.randint(size1+size2+size3, size1+size2+size3+size4-1)
+				end = size1+size2+size3+size4-1
 			else:
 				center = size1+size2+size3+size4
 				rand1 = random.randint(size1+size2+size3+size4, 24)
 				rand2= random.randint(size1+size2+size3+size4, 24)
+				end= 24
 			if(num<p_one_center):
-				rep2[0][0][0] = centroids[center][0][0] + (random.random()*(centroids[rand1][0][0]-centroids[rand2][0][0]))
-				rep2[0][0][1] = centroids[center][0][1] + (random.random()*(centroids[rand1][0][1]-centroids[rand2][0][1]))
-				rep2[0][0][2] = centroids[center][0][2] + (random.random()*(centroids[rand1][0][2]-centroids[rand2][0][2]))
-				rep2[0][0][3] = centroids[center][0][3] + (random.random()*(centroids[rand1][0][3]-centroids[rand2][0][3]))
-				rep2[0][1][0] = centroids[center][1][0] + (random.random()*(centroids[rand1][1][0]-centroids[rand2][1][0]))
-				rep2[0][1][1] = centroids[center][1][1] + (random.random()*(centroids[rand1][1][1]-centroids[rand2][1][1]))
-				rep2[0][1][2] = centroids[center][1][2] + (random.random()*(centroids[rand1][1][2]-centroids[rand2][1][2]))
-				rep2[0][1][3] = centroids[center][1][3] + (random.random()*(centroids[rand1][1][3]-centroids[rand2][1][3]))
-				rep2[0][2][0] = centroids[center][2][0] + (random.random()*(centroids[rand1][2][0]-centroids[rand2][2][0]))
-				rep2[0][2][1] = centroids[center][2][1] + (random.random()*(centroids[rand1][2][1]-centroids[rand2][2][1]))
-				rep2[0][2][2] = centroids[center][2][2] + (random.random()*(centroids[rand1][2][2]-centroids[rand2][2][2]))
-				rep2[0][2][3] = centroids[center][2][3] + (random.random()*(centroids[rand1][2][3]-centroids[rand2][2][3]))
+				for x in range(0,3):
+					for y in range(0,4):
+						rep2[0][x][y] = centroids[center][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
+						rep2[0][x][y] = centroids[center][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
+						rep2[0][x][y] = centroids[center][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
+						rep2[0][x][y] = centroids[center][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
 			else:
-				rand = random.randint(0,size1-1)
-				rep2[0][0][0] = centroids[rand][0][0] + (random.random()*(centroids[rand1][0][0]-centroids[rand2][0][0]))
-				rep2[0][0][1] = centroids[rand][0][1] + (random.random()*(centroids[rand1][0][1]-centroids[rand2][0][1]))
-				rep2[0][0][2] = centroids[rand][0][2] + (random.random()*(centroids[rand1][0][2]-centroids[rand2][0][2]))
-				rep2[0][0][3] = centroids[rand][0][3] + (random.random()*(centroids[rand1][0][3]-centroids[rand2][0][3]))
-				rep2[0][1][0] = centroids[rand][1][0] + (random.random()*(centroids[rand1][1][0]-centroids[rand2][1][0]))
-				rep2[0][1][1] = centroids[rand][1][1] + (random.random()*(centroids[rand1][1][1]-centroids[rand2][1][1]))
-				rep2[0][1][2] = centroids[rand][1][2] + (random.random()*(centroids[rand1][1][2]-centroids[rand2][1][2]))
-				rep2[0][1][3] = centroids[rand][1][3] + (random.random()*(centroids[rand1][1][3]-centroids[rand2][1][3]))
-				rep2[0][2][0] = centroids[rand][2][0] + (random.random()*(centroids[rand1][2][0]-centroids[rand2][2][0]))
-				rep2[0][2][1] = centroids[rand][2][1] + (random.random()*(centroids[rand1][2][1]-centroids[rand2][2][1]))
-				rep2[0][2][2] = centroids[rand][2][2] + (random.random()*(centroids[rand1][2][2]-centroids[rand2][2][2]))
-				rep2[0][2][3] = centroids[rand][2][3] + (random.random()*(centroids[rand1][2][3]-centroids[rand2][2][3]))				
-
+				rand = random.randint(center,end)
+				for x in range(0,3):
+					for y in range(0,4):
+						rep2[0][x][y] = centroids[rand][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
+						rep2[0][x][y] = centroids[rand][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
+						rep2[0][x][y] = centroids[rand][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
+						rep2[0][x][y] = centroids[rand][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))				
+		else:
+			randj1= random.randint(0,4)
+			randj2= random.randint(0,4)
+			while(randj1==randj2):
+				randj2= random.randint(0,4)
+			num= random.random()
+			if(num<p_two_center):
 
 
 if __name__ == '__main__':
