@@ -99,6 +99,8 @@ def cluster(centroids, obj):
 	return new_set
 
 def opti_algo(centroids):
+	centroid_rep1= []
+	rep2= []
 	size1= random.randint(2, 7)
 	size2= random.randint(2, 7)
 	size3= random.randint(2, 7)
@@ -111,79 +113,70 @@ def opti_algo(centroids):
 	p_two_center = 0.5
 	if(num<p_replace):
 		n=  random.randint(0, 4)
-		if (n==0):
-			centroids[0][0][0]= random.uniform(4.3,5.8)
-			centroids[0][0][1]= random.uniform(2.3,4.4)
-			centroids[0][0][2]= random.uniform(1,1.9)
-			centroids[0][0][3]= random.uniform(0.1,0.6)
-			centroids[0][1][0]= random.uniform(4.9,7)
-			centroids[0][1][1]= random.uniform(2,3.4)
-			centroids[0][1][2]= random.uniform(3,5.1)
-			centroids[0][1][3]= random.uniform(1,1.8)
-			centroids[0][2][0]= random.uniform(4.9,7.9)
-			centroids[0][2][1]= random.uniform(2.2,3.8)
-			centroids[0][2][2]= random.uniform(4.5,6.9)
-			centroids[0][2][3]= random.uniform(1.4,2.5)
-		elif (n==1):
-			centroids[size1][0][0]= random.uniform(4.3,5.8)
-			centroids[size1][0][1]= random.uniform(2.3,4.4)
-			centroids[size1][0][2]= random.uniform(1,1.9)
-			centroids[size1][0][3]= random.uniform(0.1,0.6)
-			centroids[size1][1][0]= random.uniform(4.9,7)
-			centroids[size1][1][1]= random.uniform(2,3.4)
-			centroids[size1][1][2]= random.uniform(3,5.1)
-			centroids[size1][1][3]= random.uniform(1,1.8)
-			centroids[size1][2][0]= random.uniform(4.9,7.9)
-			centroids[size1][2][1]= random.uniform(2.2,3.8)
-			centroids[size1][2][2]= random.uniform(4.5,6.9)
-			centroids[size1][2][3]= random.uniform(1.4,2.5)
-		elif (n==2):
-			centroids[size1+size2][0][0]= random.uniform(4.3,5.8)
-			centroids[size1+size2][0][1]= random.uniform(2.3,4.4)
-			centroids[size1+size2][0][2]= random.uniform(1,1.9)
-			centroids[size1+size2][0][3]= random.uniform(0.1,0.6)
-			centroids[size1+size2][1][0]= random.uniform(4.9,7)
-			centroids[size1+size2][1][1]= random.uniform(2,3.4)
-			centroids[size1+size2][1][2]= random.uniform(3,5.1)
-			centroids[size1+size2][1][3]= random.uniform(1,1.8)
-			centroids[size1+size2][2][0]= random.uniform(4.9,7.9)
-			centroids[size1+size2][2][1]= random.uniform(2.2,3.8)
-			centroids[size1+size2][2][2]= random.uniform(4.5,6.9)
-			centroids[size1+size2][2][3]= random.uniform(1.4,2.5)
-		elif (n==3):
-			centroids[size1+size2+size3][0][0]= random.uniform(4.3,5.8)
-			centroids[size1+size2+size3][0][1]= random.uniform(2.3,4.4)
-			centroids[size1+size2+size3][0][2]= random.uniform(1,1.9)
-			centroids[size1+size2+size3][0][3]= random.uniform(0.1,0.6)
-			centroids[size1+size2+size3][1][0]= random.uniform(4.9,7)
-			centroids[size1+size2+size3][1][1]= random.uniform(2,3.4)
-			centroids[size1+size2+size3][1][2]= random.uniform(3,5.1)
-			centroids[size1+size2+size3][1][3]= random.uniform(1,1.8)
-			centroids[size1+size2+size3][2][0]= random.uniform(4.9,7.9)
-			centroids[size1+size2+size3][2][1]= random.uniform(2.2,3.8)
-			centroids[size1+size2+size3][2][2]= random.uniform(4.5,6.9)
-			centroids[size1+size2+size3][2][3]= random.uniform(1.4,2.5)
-		else:
-			centroids[size1+size2+size3+size4][0][0]= random.uniform(4.3,5.8)
-			centroids[size1+size2+size3+size4][0][1]= random.uniform(2.3,4.4)
-			centroids[size1+size2+size3+size4][0][2]= random.uniform(1,1.9)
-			centroids[size1+size2+size3+size4][0][3]= random.uniform(0.1,0.6)
-			centroids[size1+size2+size3+size4][1][0]= random.uniform(4.9,7)
-			centroids[size1+size2+size3+size4][1][1]= random.uniform(2,3.4)
-			centroids[size1+size2+size3+size4][1][2]= random.uniform(3,5.1)
-			centroids[size1+size2+size3+size4][1][3]= random.uniform(1,1.8)
-			centroids[size1+size2+size3+size4][2][0]= random.uniform(4.9,7.9)
-			centroids[size1+size2+size3+size4][2][1]= random.uniform(2.2,3.8)
-			centroids[size1+size2+size3+size4][2][2]= random.uniform(4.5,6.9)
-			centroids[size1+size2+size3+size4][2][3]= random.uniform(1.4,2.5)
-
+		centroid_rep1[0][0][0]= random.uniform(4.3,5.8)
+		centroid_rep1[0][0][1]= random.uniform(2.3,4.4)
+		centroid_rep1[0][0][2]= random.uniform(1,1.9)
+		centroid_rep1[0][0][3]= random.uniform(0.1,0.6)
+		centroid_rep1[0][1][0]= random.uniform(4.9,7)
+		centroid_rep1[0][1][1]= random.uniform(2,3.4)
+		centroid_rep1[0][1][2]= random.uniform(3,5.1)
+		centroid_rep1[0][1][3]= random.uniform(1,1.8)
+		centroid_rep1[0][2][0]= random.uniform(4.9,7.9)
+		centroid_rep1[0][2][1]= random.uniform(2.2,3.8)
+		centroid_rep1[0][2][2]= random.uniform(4.5,6.9)
+		centroid_rep1[0][2][3]= random.uniform(1.4,2.5)
 	for x in range(0,25):
 		num = random.random()
 		if(num<p_one):
-			if(size1>size2) and (size1>size3) and (size1>size4) and (size1>size4):
-				num =  random.random()
-				if(num<p_one_center):
-					
+			num =  random.random()
+			if (size1>size2) and (size1>size3) and (size1>size4) and (size1>size4) and (size1>size5):
+				center = 0
+				rand1 = random.randint(0,size1-1)
+				rand2= random.randint(0,size1-1)
+			elif (size2>size3) and (size2>size4) and (size2>size5):
+				center = size1
+				rand1 = random.randint(size1,size1+size2-1)
+				rand2= random.randint(size1,size1+size2-1)
+			elif (size3> size4) and (size3>size5):
+				center = size1+size2
+				rand1 = random.randint(size1+size2, size1+size2+size3-1)
+				rand2= random.randint(size1+size2, size1+size2+size3-1)
+			elif (size4>size5):
+				center = size1+size2+size3
+				rand1 = random.randint(size1+size2+size3, size1+size2+size3+size4-1)
+				rand2= random.randint(size1+size2+size3, size1+size2+size3+size4-1)
+			else:
+				center = size1+size2+size3+size4
+				rand1 = random.randint(size1+size2+size3+size4, 24)
+				rand2= random.randint(size1+size2+size3+size4, 24)
+			if(num<p_one_center):
+				rep2[0][0][0] = centroids[center][0][0] + (random.random()*(centroids[rand1][0][0]-centroids[rand2][0][0]))
+				rep2[0][0][1] = centroids[center][0][1] + (random.random()*(centroids[rand1][0][1]-centroids[rand2][0][1]))
+				rep2[0][0][2] = centroids[center][0][2] + (random.random()*(centroids[rand1][0][2]-centroids[rand2][0][2]))
+				rep2[0][0][3] = centroids[center][0][3] + (random.random()*(centroids[rand1][0][3]-centroids[rand2][0][3]))
+				rep2[0][1][0] = centroids[center][1][0] + (random.random()*(centroids[rand1][1][0]-centroids[rand2][1][0]))
+				rep2[0][1][1] = centroids[center][1][1] + (random.random()*(centroids[rand1][1][1]-centroids[rand2][1][1]))
+				rep2[0][1][2] = centroids[center][1][2] + (random.random()*(centroids[rand1][1][2]-centroids[rand2][1][2]))
+				rep2[0][1][3] = centroids[center][1][3] + (random.random()*(centroids[rand1][1][3]-centroids[rand2][1][3]))
+				rep2[0][2][0] = centroids[center][2][0] + (random.random()*(centroids[rand1][2][0]-centroids[rand2][2][0]))
+				rep2[0][2][1] = centroids[center][2][1] + (random.random()*(centroids[rand1][2][1]-centroids[rand2][2][1]))
+				rep2[0][2][2] = centroids[center][2][2] + (random.random()*(centroids[rand1][2][2]-centroids[rand2][2][2]))
+				rep2[0][2][3] = centroids[center][2][3] + (random.random()*(centroids[rand1][2][3]-centroids[rand2][2][3]))
+			else:
+				rand = random.randint(0,size1-1)
+				rep2[0][0][0] = centroids[rand][0][0] + (random.random()*(centroids[rand1][0][0]-centroids[rand2][0][0]))
+				rep2[0][0][1] = centroids[rand][0][1] + (random.random()*(centroids[rand1][0][1]-centroids[rand2][0][1]))
+				rep2[0][0][2] = centroids[rand][0][2] + (random.random()*(centroids[rand1][0][2]-centroids[rand2][0][2]))
+				rep2[0][0][3] = centroids[rand][0][3] + (random.random()*(centroids[rand1][0][3]-centroids[rand2][0][3]))
+				rep2[0][1][0] = centroids[rand][1][0] + (random.random()*(centroids[rand1][1][0]-centroids[rand2][1][0]))
+				rep2[0][1][1] = centroids[rand][1][1] + (random.random()*(centroids[rand1][1][1]-centroids[rand2][1][1]))
+				rep2[0][1][2] = centroids[rand][1][2] + (random.random()*(centroids[rand1][1][2]-centroids[rand2][1][2]))
+				rep2[0][1][3] = centroids[rand][1][3] + (random.random()*(centroids[rand1][1][3]-centroids[rand2][1][3]))
+				rep2[0][2][0] = centroids[rand][2][0] + (random.random()*(centroids[rand1][2][0]-centroids[rand2][2][0]))
+				rep2[0][2][1] = centroids[rand][2][1] + (random.random()*(centroids[rand1][2][1]-centroids[rand2][2][1]))
+				rep2[0][2][2] = centroids[rand][2][2] + (random.random()*(centroids[rand1][2][2]-centroids[rand2][2][2]))
+				rep2[0][2][3] = centroids[rand][2][3] + (random.random()*(centroids[rand1][2][3]-centroids[rand2][2][3]))				
+
 
 
 if __name__ == '__main__':
