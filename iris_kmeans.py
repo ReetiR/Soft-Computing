@@ -96,9 +96,12 @@ def cluster(centroids, obj):
 		prev_min = obj[pos]
 		print pos
 		new_set.append(centroids[pos])
+	obj.sort()
+	print obj
 	return new_set
 
 def opti_algo(centroids):
+	temp= []
 	centroid_rep1= []
 	rep2= []
 	size1= random.randint(2, 7)
@@ -113,18 +116,22 @@ def opti_algo(centroids):
 	p_two_center = 0.5
 	if(num<p_replace):
 		n=  random.randint(0, 4)
-		centroid_rep1[0][0][0]= random.uniform(4.3,5.8)
-		centroid_rep1[0][0][1]= random.uniform(2.3,4.4)
-		centroid_rep1[0][0][2]= random.uniform(1,1.9)
-		centroid_rep1[0][0][3]= random.uniform(0.1,0.6)
-		centroid_rep1[0][1][0]= random.uniform(4.9,7)
-		centroid_rep1[0][1][1]= random.uniform(2,3.4)
-		centroid_rep1[0][1][2]= random.uniform(3,5.1)
-		centroid_rep1[0][1][3]= random.uniform(1,1.8)
-		centroid_rep1[0][2][0]= random.uniform(4.9,7.9)
-		centroid_rep1[0][2][1]= random.uniform(2.2,3.8)
-		centroid_rep1[0][2][2]= random.uniform(4.5,6.9)
-		centroid_rep1[0][2][3]= random.uniform(1.4,2.5)
+		temp.append(random.uniform(4.3,5.8))
+		temp.append(random.uniform(2.3,4.4))
+		temp.append(random.uniform(1,1.9))
+		temp.append(random.uniform(0.1,0.6))
+		centroid_rep1.append(temp)
+		temp =[]
+		temp.append(random.uniform(4.9,7))
+		temp.append(random.uniform(2,3.4))
+		temp.append(random.uniform(3,5.1))
+		temp.append(random.uniform(1,1.8))
+		centroid_rep1.append(temp)
+		temp = []
+		temp.append(random.uniform(4.9,7.9))
+		temp.append(random.uniform(2.2,3.8))
+		temp.append(random.uniform(4.5,6.9))
+		temp.append(random.uniform(1.4,2.5))
 	for x in range(0,25):
 		num = random.random()
 		if(num<p_one):
@@ -157,26 +164,66 @@ def opti_algo(centroids):
 			if(num<p_one_center):
 				for x in range(0,3):
 					for y in range(0,4):
-						rep2[0][x][y] = centroids[center][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
-						rep2[0][x][y] = centroids[center][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
-						rep2[0][x][y] = centroids[center][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
-						rep2[0][x][y] = centroids[center][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
+						temp[y] = float(centroids[center][x][y]) + (random.random()*(float(centroids[rand1][x][y])-float(centroids[rand2][x][y])))
+					rep2.append(temp)
 			else:
 				rand = random.randint(center,end)
 				for x in range(0,3):
 					for y in range(0,4):
-						rep2[0][x][y] = centroids[rand][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
-						rep2[0][x][y] = centroids[rand][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
-						rep2[0][x][y] = centroids[rand][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))
-						rep2[0][x][y] = centroids[rand][x][y] + (random.random()*(centroids[rand1][x][y]-centroids[rand2][x][y]))				
+						print rand
+						print centroids[rand][x][y]
+						temp[y] = float(centroids[rand][x][y]) + (random.random()*(float(centroids[rand1][x][y])-float(centroids[rand2][x][y])))
+					rep2.append(temp)				
 		else:
 			randj1= random.randint(0,4)
 			randj2= random.randint(0,4)
 			while(randj1==randj2):
 				randj2= random.randint(0,4)
+			if (randj1==0):
+				center1 = 0
+				end1 = size1-1
+			elif (randj1==1):
+				center1 = size1
+				end1 = size1+size2-1
+			elif (randj1==2):
+				center1 = size1+size2
+				end1 = size1+size2+size3-1
+			elif (randj1==3):
+				center1 = size1+size2+size3
+				end1 = size1+size2+size3+size4-1
+			else:
+				center1 = size1+size2+size3+size4
+				end1= 24
+			if (randj2==0):
+				center2 = 0
+				end2 = size1-1
+			elif (randj2==1):
+				center2 = size1
+				end2 = size1+size2-1
+			elif (randj2==2):
+				center2 = size1+size2
+				end2 = size1+size2+size3-1
+			elif (randj2==3):
+				center2 = size1+size2+size3
+				end2 = size1+size2+size3+size4-1
+			else:
+				center2 = size1+size2+size3+size4
+				end2= 24
 			num= random.random()
 			if(num<p_two_center):
-
+				for x in range(0,3):
+					for y in range(0,4):
+						temp[y] = (num*float(centroids[center1][x][y]))+ ((1-num)*float(centroids[center2][x][y]))
+					rep2.append(temp)
+			else:
+				rand1 = random.randint(center1,end1)
+				rand2 = random.randint(center2,end2)
+				for x in range(0,3):
+					for y in range(0,4):
+						print rand1
+						print rand2
+						temp[y] = (num*float(centroids[rand1][x][y])) + ((1-num)*float(centroids[rand2][x][y]))
+					rep2.append(temp)
 
 if __name__ == '__main__':
     contents = read_csv_contents('Iris.csv')
