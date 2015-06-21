@@ -56,6 +56,7 @@ def categorise_dataset(contents):
     print "Objective Functions"
     #print obj
     centroid, obj = cluster(sol, obj)
+    print "Step before optimization"
     opti_algo(centroid, obj, contents)
     #return centroid
 
@@ -183,7 +184,7 @@ def opti_algo(centroids, obj, contents):
 				changed = rand
 				for a in range(0,3):
 					temp = []
-					for y in range(0,4):
+					for y in range(0,13):
 						temp.append(float(centroids[rand][a][y]) + (random.random()*(float(centroids[rand1][a][y])-float(centroids[rand2][a][y]))))
 					rep2.append(temp)				
 		else:
@@ -228,7 +229,7 @@ def opti_algo(centroids, obj, contents):
 				changed = center1
 				for a in range(0,3):
 					temp = []
-					for y in range(0,4):
+					for y in range(0,13):
 						temp.append((num*float(centroids[center1][a][y]))+ ((1-num)*float(centroids[center2][a][y])))
 					rep2.append(temp)
 			else:
@@ -237,7 +238,7 @@ def opti_algo(centroids, obj, contents):
 				changed = rand1
 				for a in range(0,3):
 					temp = []
-					for y in range(0,4):
+					for y in range(0,13):
 						temp.append((num*float(centroids[rand1][a][y])) + ((1-num)*float(centroids[rand2][a][y])))
 					rep2.append(temp)
 		new_obj = compute_dist(contents, rep2)
@@ -248,7 +249,7 @@ def opti_algo(centroids, obj, contents):
 		if(obj[changed]>new_obj):
 			#print "changing"
 			for x in range(0,3):
-				for y in range(0,4):
+				for y in range(0,13):
 					centroids[changed][x][y]= rep2[x][y]
 			obj[changed]= new_obj
 	new_centroid, obj = cluster(centroids, obj)
