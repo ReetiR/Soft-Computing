@@ -109,6 +109,11 @@ def opti_algo(centroids, obj, contents):
 	size3= random.randint(2, 7)
 	size4= random.randint(2, 7)
 	size5= 25 - (size1+size2+size3+size4)
+	print size1
+	print size2
+	print size3
+	print size4
+	print size5
 	num = random.random()
 	p_replace = 0.2
 	p_one = 0.8
@@ -116,6 +121,7 @@ def opti_algo(centroids, obj, contents):
 	p_two_center = 0.5
 	if(num<p_replace):
 		#Replacing randomly selected cluster
+		print "Replacing randomly selected cluster"
 		rand=  random.randint(0, 4)
 		if (rand==0):
 			center = 0
@@ -174,6 +180,7 @@ def opti_algo(centroids, obj, contents):
 		num = random.random()
 		if(num<p_one):
 			#Probability of generating new idea based on one cluster
+			print "Probability of generating new idea based on one cluster"
 			num =  random.random()
 			if (size1>size2) and (size1>size3) and (size1>size4) and (size1>size4) and (size1>size5):
 				center = 0
@@ -202,6 +209,7 @@ def opti_algo(centroids, obj, contents):
 				end= 24
 			if(num<p_one_center):
 				#Probability of using cluster center
+				print "Probability of using cluster center"
 				changed = center
 				for a in range(0,3):
 					temp = []
@@ -218,6 +226,7 @@ def opti_algo(centroids, obj, contents):
 					rep2.append(temp)				
 		else:
 			#Generating new idea based on two cluster
+			print "Generating new idea based on two cluster"
 			randj1= random.randint(0,4)
 			randj2= random.randint(0,4)
 			while(randj1==randj2):
@@ -255,6 +264,7 @@ def opti_algo(centroids, obj, contents):
 			num= random.random()
 			if(num<p_two_center):
 				#Probability of using cluster center
+				print "Probability of using cluster center"
 				changed = center1
 				for a in range(0,3):
 					temp = []
@@ -271,16 +281,22 @@ def opti_algo(centroids, obj, contents):
 						temp.append((num*float(centroids[rand1][a][y])) + ((1-num)*float(centroids[rand2][a][y])))
 					rep2.append(temp)
 		new_obj = compute_dist(contents, rep2)
-		#print "old obj"
-		#print obj[changed]
-		#print "new obj"
-		#print new_obj
+		print "old obj"
+		print obj[changed]
+		print "new obj"
+		print new_obj
 		if(obj[changed]>new_obj):
-			#print "changing"
+			print "changing"
+			print obj[changed]
+			print "to"
+			print new_obj
 			for x in range(0,3):
 				for y in range(0,13):
 					centroids[changed][x][y]= rep2[x][y]
 			obj[changed]= new_obj
+		else:
+			print "No need for change"
+		centroids, obj = cluster(centroids, obj)
 	new_centroid, obj = cluster(centroids, obj)
 	#print new_centroid
 	while True:
