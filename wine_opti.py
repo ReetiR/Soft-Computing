@@ -53,7 +53,7 @@ def categorise_dataset(contents):
     	print x
     	print sol[x]
     	obj.append(compute_dist(contents,  sol[x]))
-    print "Objective Functions"
+    print "Objective Functions:"
     #print obj
     centroid, obj = cluster(sol, obj)
     print "Step before optimization"
