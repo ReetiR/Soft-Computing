@@ -135,11 +135,11 @@ def opti_algo(centroids, obj, contents):
 		centroids[center][0][5]= random.uniform(2.2,3.88)
 		centroids[center][0][6]= random.uniform(2.19,3.93)
 		centroids[center][0][7]= random.uniform(0.17,0.5)
-		centroids[center][0][8]= random.uniform(12.85,14.83)
-		centroids[center][0][9]= random.uniform(1.35,4.04)
-		centroids[center][0][10]= random.uniform(2.04,3.22)
-		centroids[center][0][11]= random.uniform(11.2,25)
-		centroids[center][0][12]= random.uniform(11.2,25)
+		centroids[center][0][8]= random.uniform(1.25,2.96)
+		centroids[center][0][9]= random.uniform(3.52,8.9)
+		centroids[center][0][10]= random.uniform(0.82,1.28)
+		centroids[center][0][11]= random.uniform(2.51,4)
+		centroids[center][0][12]= random.uniform(680,1680)
 
 		centroids[center][1][0]= random.uniform(11.03,13.86)
 		centroids[center][1][1]= random.uniform(0.74,5.8)
@@ -149,11 +149,11 @@ def opti_algo(centroids, obj, contents):
 		centroids[center][1][5]= random.uniform(1.1,3.52)
 		centroids[center][1][6]= random.uniform(0.57,5.08)
 		centroids[center][1][7]= random.uniform(0.13,0.66)
-		centroids[center][1][8]= random.uniform(12.85,14.83)
-		centroids[center][1][9]= random.uniform(1.35,4.04)
-		centroids[center][1][10]= random.uniform(2.04,3.22)
-		centroids[center][1][11]= random.uniform(11.2,25)
-		centroids[center][1][12]= random.uniform(11.2,25)
+		centroids[center][1][8]= random.uniform(0.41,3.58)
+		centroids[center][1][9]= random.uniform(1.28,6)
+		centroids[center][1][10]= random.uniform(0.69,1.71)
+		centroids[center][1][11]= random.uniform(1.59,3.69)
+		centroids[center][1][12]= random.uniform(278,985)
 
 		centroids[center][2][0]= random.uniform(12.2,14.34)
 		centroids[center][2][1]= random.uniform(1.24,5.65)
@@ -163,11 +163,11 @@ def opti_algo(centroids, obj, contents):
 		centroids[center][2][5]= random.uniform(0.98,2.8)
 		centroids[center][2][6]= random.uniform(0.34,1.57)
 		centroids[center][2][7]= random.uniform(0.17,0.63)
-		centroids[center][2][8]= random.uniform(12.85,14.83)
-		centroids[center][2][9]= random.uniform(1.35,4.04)
-		centroids[center][2][10]= random.uniform(2.04,3.22)
-		centroids[center][2][11]= random.uniform(11.2,25)
-		centroids[center][2][12]= random.uniform(11.2,25)
+		centroids[center][2][8]= random.uniform(0.55,2.7)
+		centroids[center][2][9]= random.uniform(3.85,13)
+		centroids[center][2][10]= random.uniform(0.48,0.96)
+		centroids[center][2][11]= random.uniform(1.27,2.47)
+		centroids[center][2][12]= random.uniform(415,880)
 		
 	for x in range(0,25):
 		rep2= []
@@ -205,7 +205,7 @@ def opti_algo(centroids, obj, contents):
 				changed = center
 				for a in range(0,3):
 					temp = []
-					for y in range(0,4):
+					for y in range(0,13):
 						temp.append(float(centroids[center][a][y]) + (random.random()*(float(centroids[rand1][a][y])-float(centroids[rand2][a][y]))))
 					rep2.append(temp)
 			else:
