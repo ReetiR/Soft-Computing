@@ -157,7 +157,7 @@ def opti_algo(centroids, obj, contents):
 		# centroids[center][2][2]= random.uniform(3.5,6.9)
 		# centroids[center][2][3]= random.uniform(1,2.5)
 
-	for x in range(0,100):
+	for x in range(0,200):
 		rep2= []
 		num = random.random()
 		if(num<p_one):
@@ -208,7 +208,6 @@ def opti_algo(centroids, obj, contents):
 		else:
 			#Generating new idea based on two cluster
 			#print "Generating new idea based on two cluster"
-			rep2a = []
 			randj1= random.randint(0,4)
 			randj2= random.randint(0,4)
 			while(randj1==randj2):
@@ -247,57 +246,38 @@ def opti_algo(centroids, obj, contents):
 			if(num<p_two_center):
 				#Probability of using cluster center
 				num= random.random()
-				changed1 = center1
-				changed2= center2
-				for a in range(0,3):
-					temp = []
-					for y in range(0,4):
-						temp.append((num*float(centroids[center1][a][y]))+ ((1-num)*float(centroids[center2][a][y])))
-					rep2.append(temp)
-				for a in range(0,3):
-					temp = []
-					for y in range(0,4):
-						temp.append(((1-num)*float(centroids[center1][a][y]))+ (num*float(centroids[center2][a][y])))
-					rep2a.append(temp)
+				if(center1>center2):
+					changed= center1
+					for a in range(0,3):
+						temp = []
+						for y in range(0,4):
+							temp.append((float(centroids[center2][a][y]))+ (num*(float(centroids[center2][a][y])-float(centroids[center1][a][y]))))
+						rep2.append(temp)
+				else:
+					changed= center2
+					for a in range(0,3):
+						temp = []
+						for y in range(0,4):
+							temp.append((float(centroids[center1][a][y]))+ (num*(float(centroids[center1][a][y])-float(centroids[center2][a][y]))))
+						rep2.append(temp)
 			else:
 				num= random.random()
 				rand1 = random.randint(center1,end1)
 				rand2 = random.randint(center2,end2)
-				changed1 = rand1
-				changed2= rand2
-				for a in range(0,3):
-					temp = []
-					for y in range(0,4):
-						temp.append((num*float(centroids[rand1][a][y])) + ((1-num)*float(centroids[rand2][a][y])))
-					rep2.append(temp)
-				for a in range(0,3):
-					temp = []
-					for y in range(0,4):
-						temp.append(((1-num)*float(centroids[rand1][a][y])) + (num*float(centroids[rand2][a][y])))
-					rep2a.append(temp)
-			new_obj = compute_dist(contents, rep2)
-			#print "old obj"
-			#print obj[changed]
-			#print "new obj"
-			#print new_obj
-			if(obj[changed1]>new_obj):
-				#print "changing"
-				for r in range(0,3):
-					for c in range(0,4):
-						centroids[changed1][r][c]= rep2[r][c]
-				obj[changed1]= new_obj
-			new_obj = compute_dist(contents, rep2a)
-			#print "old obj"
-			#print obj[changed]
-			#print "new obj"
-			#print new_obj
-			if(obj[changed2]>new_obj):
-				#print "changing"
-				for r in range(0,3):
-					for c in range(0,4):
-						centroids[changed2][r][c]= rep2[r][c]
-				obj[changed2]= new_obj
-			continue
+				if(rand1>rand2):
+					changed= rand1
+					for a in range(0,3):
+						temp = []
+						for y in range(0,4):
+							temp.append((float(centroids[rand2][a][y]))+ (num*(float(centroids[rand2][a][y])-float(centroids[rand1][a][y]))))
+						rep2.append(temp)
+				else:
+					changed= rand2
+					for a in range(0,3):
+						temp = []
+						for y in range(0,4):
+							temp.append((float(centroids[rand1][a][y]))+ (num*(float(centroids[rand1][a][y])-float(centroids[rand2][a][y]))))
+						rep2.append(temp)
 		new_obj = compute_dist(contents, rep2)
 		#print "old obj"
 		#print obj[changed]
