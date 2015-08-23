@@ -54,7 +54,7 @@ def categorise_dataset(contents):
     	obj.append(compute_dist(contents,  sol[x]))
     print "Objective Functions"
     print obj
-    centroid, obj = sorting(sol, obj)
+    centroid, obj = sorting(sol, obj, contents)
     opti_algo(centroid, obj, contents)
     #return centroid
 
@@ -64,6 +64,7 @@ def compute_dist(contents, centroids):
 		min_dist = 10000
 		dst = 0
 		for x in range(0,3):
+			dst = 0
 			for y in range(0,4):
 				dst= dst+((float(each_tuple[y])-float(centroids[x][y]))*(float(each_tuple[y])-float(centroids[x][y])))
 			dst = math.sqrt(dst)
@@ -85,7 +86,7 @@ def obj_func(contents, centroids, membership):
 		tmp= tmp + 1
 	return dist
 
-def sorting(centroids, obj):
+def sorting(centroids, obj, contents):
 	new_set = []
 	prev_min = 0
 	pos= 0
@@ -100,10 +101,36 @@ def sorting(centroids, obj):
 	obj.sort()
 	print "Objective function"
 	print obj
-	DBIndex(new_set[0])
+	for x in range(0,25):
+		objVal = compute_dist(contents, centroids[x])
+		if(objVal==obj[0]):
+			DBIndex(centroids[x], contents)
+	#DBIndex(new_set[0], contents)
 	return new_set, obj
 
-def DBIndex(centroids):
+def DBIndex(centroids, contents):
+	print centroids
+	membership = []
+	for each_tuple in contents:
+		min_dist = 10000
+		dst = 0
+		for x in range(0,3):
+			dst = 0
+			for y in range(0,4):
+				dst= dst+((float(each_tuple[y])-float(centroids[x][y]))*(float(each_tuple[y])-float(centroids[x][y])))
+			dst = math.sqrt(dst)
+			if(dst<min_dist):
+				min_dist= dst
+				pos = x
+		membership.append(pos)
+	dist = 0
+	tmp = 0
+	#print membership
+	for each_tuple in contents:
+		for x in range(0,4):
+			dist =  dist+ ((float(each_tuple[x])-float(centroids[membership[tmp]][x]))*(float(each_tuple[x])-float(centroids[membership[tmp]][x])))
+		tmp= tmp + 1
+	print dist
 	cluster1=[]
 	cluster2=[]
 	cluster3=[]
@@ -123,25 +150,107 @@ def DBIndex(centroids):
 		if(pos==0):
 			cluster1.append(each_tuple)
 			c1= c1+1
-		else if(pos==1):
+		elif(pos==1):
 			cluster2.append(each_tuple)
 			c2= c2+1
 		else:
 			cluster3.append(each_tuple)
 			c3= c3+1
+	totDst = 0
 	for each_tuple in cluster1:
+		dst=0
 		for y in range(0,4):
 			dst= dst+((float(each_tuple[y])-float(centroids[0][y]))*(float(each_tuple[y])-float(centroids[0][y])))
-		dst = math.sqrt(dst)
-	d1 = dst/c1
+		totDst = totDst + math.sqrt(dst)
+	d1 = totDst/c1
+	totDst = 0
 	for each_tuple in cluster1:
+		dst= 0
 		for y in range(0,4):
 			dst= dst+((float(each_tuple[y])-float(centroids[1][y]))*(float(each_tuple[y])-float(centroids[1][y])))
-		dst = math.sqrt(dst)
-	d2 = dst/c1
+		totDst = totDst+ math.sqrt(dst)
+	d2 = totDst/c1
+	dst= 0
 	for y in range(0,4):
-		dst= dst+((float(centroids[0][y]))-float(centroids[1][y]))*(float(centroids[0][y]))-float(centroids[1][y])))
+		dst= dst+((float(centroids[0][y])-float(centroids[1][y]))*(float(centroids[0][y])-float(centroids[1][y])))
 	d12 = math.sqrt(dst)
+	D12 = (d1 + d2)/d12
+	totDst =0 
+	for each_tuple in cluster1:
+		dst = 0
+		for y in range(0,4):
+			dst= dst+((float(each_tuple[y])-float(centroids[2][y]))*(float(each_tuple[y])-float(centroids[2][y])))
+		totDst = totDst + math.sqrt(dst)
+	d3 = totDst/c1
+	dst = 0
+	for y in range(0,4):
+		dst= dst+((float(centroids[0][y])-float(centroids[2][y]))*(float(centroids[0][y])-float(centroids[2][y])))
+	d13 = math.sqrt(dst)
+	D13 = (d1 + d3)/d13
+	totDst =0 
+	for each_tuple in cluster2:
+		dst = 0
+		for y in range(0,4):
+			dst= dst+((float(each_tuple[y])-float(centroids[1][y]))*(float(each_tuple[y])-float(centroids[1][y])))
+		totDst = totDst + math.sqrt(dst)
+	d2 = totDst/c2
+	totDst = 0
+	for each_tuple in cluster2:
+		dst = 0
+		for y in range(0,4):
+			dst= dst+((float(each_tuple[y])-float(centroids[0][y]))*(float(each_tuple[y])-float(centroids[0][y])))
+		totDst = totDst + math.sqrt(dst)
+	d1 = totDst/c2
+	dst = 0
+	for y in range(0,4):
+		dst= dst+((float(centroids[1][y])-float(centroids[0][y]))*(float(centroids[1][y])-float(centroids[0][y])))
+	d12 = math.sqrt(dst)
+	D21 = (d2 + d1)/d12
+	totDst =0
+	for each_tuple in cluster2:
+		dst = 0
+		for y in range(0,4):
+			dst= dst+((float(each_tuple[y])-float(centroids[2][y]))*(float(each_tuple[y])-float(centroids[2][y])))
+		totDst = totDst + math.sqrt(dst)
+	d3 = totDst/c1
+	dst= 0
+	for y in range(0,4):
+		dst= dst+((float(centroids[1][y])-float(centroids[2][y]))*(float(centroids[1][y])-float(centroids[2][y])))
+	d23 = math.sqrt(dst)
+	D23 = (d2 + d3)/d23
+	totDst =0
+	for each_tuple in cluster3:
+		dst= 0
+		for y in range(0,4):
+			dst= dst+((float(each_tuple[y])-float(centroids[2][y]))*(float(each_tuple[y])-float(centroids[2][y])))
+		totDst = totDst + math.sqrt(dst)
+	d3 = totDst/c3
+	totDst =0
+	for each_tuple in cluster3:
+		dst = 0
+		for y in range(0,4):
+			dst= dst+((float(each_tuple[y])-float(centroids[1][y]))*(float(each_tuple[y])-float(centroids[1][y])))
+		totDst = totDst + math.sqrt(dst)
+	d1 = totDst/c3
+	dst = 0
+	for y in range(0,4):
+		dst= dst+((float(centroids[2][y])-float(centroids[0][y]))*(float(centroids[2][y])-float(centroids[0][y])))
+	d31 = math.sqrt(dst)
+	D31 = (d1 + d3)/d31
+	totDst= 0
+	for each_tuple in cluster3:
+		dst = 0
+		for y in range(0,4):
+			dst= dst+((float(each_tuple[y])-float(centroids[1][y]))*(float(each_tuple[y])-float(centroids[1][y])))
+		totDst = totDst+ math.sqrt(dst)
+	d2 = totDst/c3
+	dst = 0
+	for y in range(0,4):
+		dst= dst+((float(centroids[2][y])-float(centroids[1][y]))*(float(centroids[2][y])-float(centroids[1][y])))
+	d32 = math.sqrt(dst)
+	D32 = (d3 + d2)/d32
+	DBInd = (max(D12,D13)+max(D21,D23)+max(D31,D32))/3
+	print DBInd
 	
 
 def opti_algo(centroids, obj, contents):
@@ -348,7 +457,7 @@ def opti_algo(centroids, obj, contents):
 				for c in range(0,4):
 					centroids[changed][r][c]= rep2[r][c]
 			obj[changed]= new_obj
-	new_centroid, obj = cluster(centroids, obj)
+	new_centroid, obj = sorting(centroids, obj, contents)
 	#print new_centroid
 	while True:
 		# print "Difference"
@@ -362,7 +471,6 @@ def opti_algo(centroids, obj, contents):
 		opti_algo(new_centroid, obj, contents)
 
 if __name__ == '__main__':
-	global contents
     contents = read_csv_contents('Iris.csv')
     #centroids = 
     categorise_dataset(contents)
