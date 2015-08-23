@@ -64,8 +64,7 @@ def categorise_dataset(contents):
 def compute_dist(contents, centroids):
 	membership = []
 	for each_tuple in contents:
-		min_dist = 10000
-		dst = 0
+		min_dist = 1000
 		for x in range(0,3):
 			dst = 0
 			for y in range(0,4):
@@ -121,7 +120,6 @@ def DBIndex(centroids, contents):
 	c3=0
 	for each_tuple in contents:
 		min_dist = 10000
-		dst = 0
 		for x in range(0,3):
 			dst = 0
 			for y in range(0,4):
