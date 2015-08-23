@@ -22,9 +22,7 @@ def read_csv_contents(filename):
             file_contents.append(tuple(row))
     return file_contents
 
-
 def categorise_dataset(contents):
-	
     iris_setosa = []
     iris_versicolor = []
     iris_virginica = []
@@ -39,7 +37,6 @@ def categorise_dataset(contents):
             iris_setosa.append(list(each_tuple[:4]))
             #iris_setosa = list(iris_setosa)
     sol = []
-
     for i in range(0,25):
     	temp = []
     	x = random.randint(0,49)
@@ -57,7 +54,7 @@ def categorise_dataset(contents):
     	obj.append(compute_dist(contents,  sol[x]))
     print "Objective Functions"
     print obj
-    centroid, obj = cluster(sol, obj)
+    centroid, obj = sorting(sol, obj)
     opti_algo(centroid, obj, contents)
     #return centroid
 
@@ -88,14 +85,14 @@ def obj_func(contents, centroids, membership):
 		tmp= tmp + 1
 	return dist
 
-def cluster(centroids, obj):
+def sorting(centroids, obj):
 	new_set = []
 	prev_min = 0
 	pos= 0
 	for x in range(0,25):
 		min_val = 1000
 		for y in range(0,25):
-			if (obj[y]< min_val) and (obj[y]>prev_min):
+			if (obj[y]<min_val) and (obj[y]>prev_min):
 				min_val = obj[y]
 				pos = y
 		prev_min = obj[pos]
@@ -103,7 +100,49 @@ def cluster(centroids, obj):
 	obj.sort()
 	print "Objective function"
 	print obj
+	DBIndex(new_set[0])
 	return new_set, obj
+
+def DBIndex(centroids):
+	cluster1=[]
+	cluster2=[]
+	cluster3=[]
+	c1=0
+	c2=0
+	c3=0
+	for each_tuple in contents:
+		min_dist = 10000
+		dst = 0
+		for x in range(0,3):
+			for y in range(0,4):
+				dst= dst+((float(each_tuple[y])-float(centroids[x][y]))*(float(each_tuple[y])-float(centroids[x][y])))
+			dst = math.sqrt(dst)
+			if(dst<min_dist):
+				min_dist= dst
+				pos = x
+		if(pos==0):
+			cluster1.append(each_tuple)
+			c1= c1+1
+		else if(pos==1):
+			cluster2.append(each_tuple)
+			c2= c2+1
+		else:
+			cluster3.append(each_tuple)
+			c3= c3+1
+	for each_tuple in cluster1:
+		for y in range(0,4):
+			dst= dst+((float(each_tuple[y])-float(centroids[0][y]))*(float(each_tuple[y])-float(centroids[0][y])))
+		dst = math.sqrt(dst)
+	d1 = dst/c1
+	for each_tuple in cluster1:
+		for y in range(0,4):
+			dst= dst+((float(each_tuple[y])-float(centroids[1][y]))*(float(each_tuple[y])-float(centroids[1][y])))
+		dst = math.sqrt(dst)
+	d2 = dst/c1
+	for y in range(0,4):
+		dst= dst+((float(centroids[0][y]))-float(centroids[1][y]))*(float(centroids[0][y]))-float(centroids[1][y])))
+	d12 = math.sqrt(dst)
+	
 
 def opti_algo(centroids, obj, contents):
 	min_obj= obj[0]
@@ -157,7 +196,7 @@ def opti_algo(centroids, obj, contents):
 		# centroids[center][2][2]= random.uniform(3.5,6.9)
 		# centroids[center][2][3]= random.uniform(1,2.5)
 
-	for x in range(0,100):
+	for x in range(0,200):
 		rep2= []
 		num = random.random()
 		if(num<p_one):
@@ -323,6 +362,7 @@ def opti_algo(centroids, obj, contents):
 		opti_algo(new_centroid, obj, contents)
 
 if __name__ == '__main__':
+	global contents
     contents = read_csv_contents('Iris.csv')
     #centroids = 
     categorise_dataset(contents)
