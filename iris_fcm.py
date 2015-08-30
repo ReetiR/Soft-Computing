@@ -46,6 +46,7 @@ def categorise_dataset(contents):
     	obj.append(compute_dist(contents,  sol[x]))
     print "Objective Functions"
     print obj
+    time.sleep(5)
     centroids, obj = sorting(sol, obj, contents)
     opti_algo(centroids, obj, contents)
     #return centroid
@@ -53,29 +54,40 @@ def categorise_dataset(contents):
 def compute_dist(contents, centroids):
 	membership = []
 	for each_tuple in contents:
-		min_dist = 1000
-		for x in range(0,3):
-			dst = 0
+		tmp = []
+		for a in range(0,3):
+			totDst = 0
+			idist = 0
 			for y in range(0,4):
-				dst= dst+((float(each_tuple[y])-float(centroids[x][y]))*(float(each_tuple[y])-float(centroids[x][y])))
-			dst = math.sqrt(dst)
-			if(dst<min_dist):
-				min_dist= dst
-				pos = x
-		membership.append(pos)
+					idist= idist+((float(each_tuple[y])-float(centroids[a][y]))*(float(each_tuple[y])-float(centroids[a][y])))
+			idist = math.sqrt(idist)
+			for x in range(0,3):
+				dst = 0
+				for y in range(0,4):
+					dst= dst+((float(each_tuple[y])-float(centroids[x][y]))*(float(each_tuple[y])-float(centroids[x][y])))
+				if (dst !=0):
+					totDst = totDst + ((idist/ math.sqrt(dst)) * (idist/ math.sqrt(dst)))
+			if(totDst!=0):
+				val = 1/totDst
+			tmp.append(val)
+		membership.append(tmp)
 	#print membership
+	#time.sleep(4)
 	return obj_func(contents, centroids, membership)
 		#print pos
 
 def obj_func(contents, centroids, membership):
-	dist = 0
+	tot =0
 	tmp = 0
 	#print membership
 	for each_tuple in contents:
-		for x in range(0,4):
-			dist =  dist+ ((float(each_tuple[x])-float(centroids[membership[tmp]][x]))*(float(each_tuple[x])-float(centroids[membership[tmp]][x])))
+		for x in range(0,3):
+			dist = 0
+			for y in range(0,4):
+				dist =  dist+ ((float(each_tuple[y])-float(centroids[x][y]))*(float(each_tuple[y])-float(centroids[x][y])))
+			tot = tot + (membership[tmp][x]) * (membership[tmp][x]) * dist
 		tmp= tmp + 1
-	return dist
+	return tot
 
 def sorting(centroids, obj, contents):
 	new_set = []
@@ -92,138 +104,9 @@ def sorting(centroids, obj, contents):
 	obj.sort()
 	print "Objective function"
 	print obj
-	for x in range(0,25):
-		objVal = compute_dist(contents, centroids[x])
-		if(objVal==obj[0]):
-			DBIndex(centroids[x], contents)
 	#DBIndex(new_set[0], contents)
 	return new_set, obj
 
-
-def DBIndex(centroids, contents):
-	cluster1=[]
-	cluster2=[]
-	cluster3=[]
-	c1=0
-	c2=0
-	c3=0
-	for each_tuple in contents:
-		min_dist = 10000
-		for x in range(0,3):
-			dst = 0
-			for y in range(0,4):
-				dst= dst+((float(each_tuple[y])-float(centroids[x][y]))*(float(each_tuple[y])-float(centroids[x][y])))
-			dst = math.sqrt(dst)
-			if(dst<min_dist):
-				min_dist= dst
-				pos = x
-		if(pos==0):
-			cluster1.append(each_tuple)
-			c1= c1+1
-		elif(pos==1):
-			cluster2.append(each_tuple)
-			c2= c2+1
-		else:
-			cluster3.append(each_tuple)
-			c3= c3+1
-	totDst = 0
-	for each_tuple in cluster1:
-		dst=0
-		for y in range(0,4):
-			dst= dst+((float(each_tuple[y])-float(centroids[0][y]))*(float(each_tuple[y])-float(centroids[0][y])))
-		totDst = totDst + math.sqrt(dst)
-	d1 = totDst/c1
-	totDst = 0
-	for each_tuple in cluster1:
-		dst= 0
-		for y in range(0,4):
-			dst= dst+((float(each_tuple[y])-float(centroids[1][y]))*(float(each_tuple[y])-float(centroids[1][y])))
-		totDst = totDst+ math.sqrt(dst)
-	d2 = totDst/c1
-	dst= 0
-	for y in range(0,4):
-		dst= dst+((float(centroids[0][y])-float(centroids[1][y]))*(float(centroids[0][y])-float(centroids[1][y])))
-	d12 = math.sqrt(dst)
-	D12 = (d1 + d2)/d12
-	totDst =0 
-	for each_tuple in cluster1:
-		dst = 0
-		for y in range(0,4):
-			dst= dst+((float(each_tuple[y])-float(centroids[2][y]))*(float(each_tuple[y])-float(centroids[2][y])))
-		totDst = totDst + math.sqrt(dst)
-	d3 = totDst/c1
-	dst = 0
-	for y in range(0,4):
-		dst= dst+((float(centroids[0][y])-float(centroids[2][y]))*(float(centroids[0][y])-float(centroids[2][y])))
-	d13 = math.sqrt(dst)
-	D13 = (d1 + d3)/d13
-	totDst =0 
-	for each_tuple in cluster2:
-		dst = 0
-		for y in range(0,4):
-			dst= dst+((float(each_tuple[y])-float(centroids[1][y]))*(float(each_tuple[y])-float(centroids[1][y])))
-		totDst = totDst + math.sqrt(dst)
-	d2 = totDst/c2
-	totDst = 0
-	for each_tuple in cluster2:
-		dst = 0
-		for y in range(0,4):
-			dst= dst+((float(each_tuple[y])-float(centroids[0][y]))*(float(each_tuple[y])-float(centroids[0][y])))
-		totDst = totDst + math.sqrt(dst)
-	d1 = totDst/c2
-	dst = 0
-	for y in range(0,4):
-		dst= dst+((float(centroids[1][y])-float(centroids[0][y]))*(float(centroids[1][y])-float(centroids[0][y])))
-	d12 = math.sqrt(dst)
-	D21 = (d2 + d1)/d12
-	totDst =0
-	for each_tuple in cluster2:
-		dst = 0
-		for y in range(0,4):
-			dst= dst+((float(each_tuple[y])-float(centroids[2][y]))*(float(each_tuple[y])-float(centroids[2][y])))
-		totDst = totDst + math.sqrt(dst)
-	d3 = totDst/c1
-	dst= 0
-	for y in range(0,4):
-		dst= dst+((float(centroids[1][y])-float(centroids[2][y]))*(float(centroids[1][y])-float(centroids[2][y])))
-	d23 = math.sqrt(dst)
-	D23 = (d2 + d3)/d23
-	totDst =0
-	for each_tuple in cluster3:
-		dst= 0
-		for y in range(0,4):
-			dst= dst+((float(each_tuple[y])-float(centroids[2][y]))*(float(each_tuple[y])-float(centroids[2][y])))
-		totDst = totDst + math.sqrt(dst)
-	d3 = totDst/c3
-	totDst =0
-	for each_tuple in cluster3:
-		dst = 0
-		for y in range(0,4):
-			dst= dst+((float(each_tuple[y])-float(centroids[1][y]))*(float(each_tuple[y])-float(centroids[1][y])))
-		totDst = totDst + math.sqrt(dst)
-	d1 = totDst/c3
-	dst = 0
-	for y in range(0,4):
-		dst= dst+((float(centroids[2][y])-float(centroids[0][y]))*(float(centroids[2][y])-float(centroids[0][y])))
-	d31 = math.sqrt(dst)
-	D31 = (d1 + d3)/d31
-	totDst= 0
-	for each_tuple in cluster3:
-		dst = 0
-		for y in range(0,4):
-			dst= dst+((float(each_tuple[y])-float(centroids[1][y]))*(float(each_tuple[y])-float(centroids[1][y])))
-		totDst = totDst+ math.sqrt(dst)
-	d2 = totDst/c3
-	dst = 0
-	for y in range(0,4):
-		dst= dst+((float(centroids[2][y])-float(centroids[1][y]))*(float(centroids[2][y])-float(centroids[1][y])))
-	d32 = math.sqrt(dst)
-	D32 = (d3 + d2)/d32
-	DBInd = (max(D12,D13)+max(D21,D23)+max(D31,D32))/3
-	print DBInd
-	print "sleep"
-	time.sleep(1)
-	
 
 def opti_algo(centroids, obj, contents):
 	min_obj= obj[0]
